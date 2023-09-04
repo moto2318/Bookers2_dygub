@@ -2,10 +2,13 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find(params[:id])
+    @user = @book.user
+    @book_new = Book.new
   end
 
   def index
     @books = Book.all
+    @book = Book.new
   end
 
   def create
@@ -15,7 +18,7 @@ class BooksController < ApplicationController
       redirect_to book_path(@book), notice: "You have created book successfully."
     else
       @books = Book.all
-      render 'index'
+      render :index
     end
   end
 
@@ -32,9 +35,9 @@ class BooksController < ApplicationController
     end
   end
 
-  def delete
+  def destroy
     @book = Book.find(params[:id])
-    @book.destoy
+    @book.destroy
     redirect_to books_path
   end
 
