@@ -20,6 +20,7 @@
             <%= image_tag @book.user.get_profile_image, size:"100x100" %><br>
             <%= @book.user.name %>
             <%= render 'favorite', book: @book%>
+            <%= render 'book_comment', book: @book, book_comment: @book_comment %>
             <% end %>
           </td>
 
