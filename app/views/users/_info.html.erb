@@ -1,16 +1,35 @@
 <table class='table'>
-  <tr><%= image_tag user.get_profile_image, size:'100x100' %></tr>
+  <tr><%= image_tag user.get_profile_image(100, 100) %></tr>
   <tr>
 	  <th>name</th>
 	  <th><%= user.name %></th>
   </tr>
-   
+
   <tr>
 	  <th>introduction</th>
 	  <th><%= user.introduction %></th>
   </tr>
+    <tr>
+      <th>Follows</th>
+
+      <td>
+        <%= link_to user_followings_path(user) do %>
+          <h6><%= user.followers.count %></h6>
+        <% end %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>Followers</th>
+      <td>
+        <%= link_to user_followings_path(user) do %>
+          <h6><%= user.followers.count %></h6>
+        <% end %>
+      </td>
+    </tr>
+
 </table>
-　
+
 <div class='row'>
   <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block" do %>
     <i class="fas fa-user-cog"></i>
