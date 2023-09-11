@@ -17,27 +17,53 @@ class User < ApplicationRecord
   has_many :followers, through: :reverse_of_relationships, source: :follower
 
 
+
+
   has_one_attached :profile_image
 
   validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true
   validates :email, presence: true
 
+     #　フォローしたときの処理
+  def follow(user_id)
+    followers.create(followed_id: user_id)
+  end
+
+  #　フォローを外すときの処理
+  def unfollow(user_id)
+    followers.find_by(followed_id: user_id).destroy
+  end
+
+  #フォローしていればtrueを返す
+  def following?(user)
+    following_users.include?(user)
+  end
+
+  validates :user_id, presence: true
+  validates :follow_id, presence: true
+
+
   def get_profile_image(width, heigth)
     (profile_image.attached?) ? profile_image : 'no_image.jpg'
   end
 
-  #　フォローしたときの処理
-def follow(user_id)
-  followers.create(followed_id: user_id)
-end
+  #検索機能
+  def self.looks(search, word)
+    if search == "perfect_match"
+      @user = User.where("name LIKE?", "#{word}")
+      #頭文字
+    elsif search == "forward_match"
+      @user = User.where("name LIKE?","#{word}%")
+      #末尾
+    elsif search == "backward_match"
+      @user = User.where("name LIKE?","%#{word}")
+      #部分
+    elsif search == "partial_match"
+      @user = User.where("name LIKE?","%#{word}%")
+    else
+      @user = User.all
+    end
+  end
 
-#　フォローを外すときの処理
-def unfollow(user_id)
-  followers.find_by(followed_id: user_id).destroy
-end
 
-#フォローしていればtrueを返す
-def following?(user)
-  following_users.include?(user)
-end
 end
