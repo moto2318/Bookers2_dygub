@@ -26,17 +26,17 @@ class User < ApplicationRecord
 
      #　フォローしたときの処理
   def follow(user_id)
-    followers.create(followed_id: user_id)
+    relationships.create(followed_id: user_id)
   end
 
   #　フォローを外すときの処理
   def unfollow(user_id)
-    followers.find_by(followed_id: user_id).destroy
+    relationships.find_by(followed_id: user_id).destroy
   end
 
   #フォローしていればtrueを返す
   def following?(user)
-    following_users.include?(user)
+    followings.include?(user)
   end
 
   validates :user_id, presence: true
@@ -46,6 +46,10 @@ class User < ApplicationRecord
   def get_profile_image(width, heigth)
     (profile_image.attached?) ? profile_image : 'no_image.jpg'
   end
+  
+  
+
+
 
   #検索機能
   def self.looks(search, word)

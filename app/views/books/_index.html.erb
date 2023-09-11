@@ -21,9 +21,10 @@
         <td><%= book.body %></td>
 
         <!--いいねの非同期-->
-        <td id="favorite_buttons_<%= book.id %>" >
-            <%= render "books/favorite", book: book %>
+         <td id="favorite_btn_<%= book.id %>">
+            <%= render "favorites/btn", book: book %>
         </td>
+
         <td><p>コメント件数:<%= book.book_comments.count %></p></td>
 
       </tr>
